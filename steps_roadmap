@@ -1,0 +1,10 @@
+1. Project Setup
+2. Implement SHA256 Utility
+3. Create the Block Class
+4. Create the Blockchain Class
+5. Build Genesis Block
+6. Add Proof-of-Work
+7. Add Chain Validation
+8. Exception Handling
+9. Recursion & Optimization (Optional)
+10. Final Testing in main.cpp

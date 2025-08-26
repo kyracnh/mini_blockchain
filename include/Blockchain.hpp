@@ -11,6 +11,7 @@ class Blockchain
         int difficulty;
 
         Block createGenesisBlock();
+        std::vector<Transaction> pendingTransactions;
 
     public:
         Blockchain(int diff = 4);
@@ -19,6 +20,11 @@ class Blockchain
         bool isChainValid() const;
         Block getLatestBlock() const;
         void printChain() const;
+
+        void addTransaction(const Transaction& tx);
+        void minePendingTransactions(const std::string& minerAddress);
+        double getBalance(const std::string& address) const;
+        void print() const;
 };
 
 #endif

@@ -65,9 +65,55 @@ void Blockchain::printChain() const {
         for (const auto& tx : block.getTransactions()) {
             std::cout << "  " << tx.toString() << "\n";
         }
-        
+
         std::cout << "Hash: " << block.getHash() << "\n";
         std::cout << "Prev Hash: " << block.getPreviousHash() << "\n";
         std::cout << "Timestamp: " << block.getTimestamp() << "\n\n";
+    }
+}
+
+void Blockchain::addTransaction(const Transaction& tx) {
+    pendingTransactions.push_back(tx);
+}
+
+void Blockchain::minePendingTransactions(const std::string& minerAddress) {
+    // include reward transaction
+    Transaction reward("SYSTEM", minerAddress, 10); // reward miner with 10 coins
+    pendingTransactions.push_back(reward);
+
+    // create block with pending transactions
+    Block block(chain.size(), pendingTransactions, getLatestBlock().getHash(), difficulty);
+    block.mineBlock();
+    chain.push_back(block);
+
+    // reset pending
+    pendingTransactions.clear();
+}
+
+double Blockchain::getBalance(const std::string& address) const {
+    double balance = 0.0;
+
+    for (const auto& block : chain) {
+        for (const auto& tx : block.getTransactions()) {
+            if (tx.getSender() == address) {
+                balance -= tx.getAmount();
+            }
+            if (tx.getReceiver() == address) {
+                balance += tx.getAmount();
+            }
+        }
+    }
+
+    return balance;
+}
+
+void Blockchain::print() const {
+    std::cout << "\n=== Blockchain ===\n";
+    for (const auto& block : chain) {
+        std::cout << "Block " << block.getIndex() << " [Hash: " << block.getHash() << "]\n";
+        for (const auto& tx : block.getTransactions()) {
+            std::cout << "  Tx: " << tx.getSender() << " -> " 
+                      << tx.getReceiver() << " : " << tx.getAmount() << "\n";
+        }
     }
 }

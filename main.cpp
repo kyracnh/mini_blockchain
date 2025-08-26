@@ -91,33 +91,42 @@
 // }
 
 
-#include "Wallet.hpp"
-#include "Transaction.hpp"
-#include <iostream>
-#include <vector>
+// #include "Wallet.hpp"
+// #include "Transaction.hpp"
+// #include <iostream>
+// #include <vector>
+
+// int main() {
+//     Wallet alice;
+//     Wallet bob;
+
+//     alice.addBalance(100); // simulate deposit
+
+//     // Create transaction: Alice sends 30 to Bob
+//     Transaction tx(alice.getPublicKey(), bob.getPublicKey(), 30);
+
+//     std::cout << "Transaction ID: " << tx.getTransactionID() << std::endl;
+//     std::cout << "From: " << tx.getSender() << " To: " << tx.getReceiver() << " Amount: " << tx.getAmount() << std::endl;
+
+//     // Apply transaction
+//     if (alice.getBalance() >= tx.getAmount()) {
+//         alice.subtractBalance(tx.getAmount());
+//         bob.addBalance(tx.getAmount());
+//         std::cout << "Transaction applied!" << std::endl;
+//         std::cout << "Alice Balance: " << alice.getBalance() << std::endl;
+//         std::cout << "Bob Balance: " << bob.getBalance() << std::endl;
+//     } else {
+//         std::cout << "Transaction failed: insufficient funds" << std::endl;
+//     }
+
+//     return 0;
+// }
+
+
+#include "CLI.hpp"
 
 int main() {
-    Wallet alice;
-    Wallet bob;
-
-    alice.addBalance(100); // simulate deposit
-
-    // Create transaction: Alice sends 30 to Bob
-    Transaction tx(alice.getPublicKey(), bob.getPublicKey(), 30);
-
-    std::cout << "Transaction ID: " << tx.getTransactionID() << std::endl;
-    std::cout << "From: " << tx.getSender() << " To: " << tx.getReceiver() << " Amount: " << tx.getAmount() << std::endl;
-
-    // Apply transaction
-    if (alice.getBalance() >= tx.getAmount()) {
-        alice.subtractBalance(tx.getAmount());
-        bob.addBalance(tx.getAmount());
-        std::cout << "Transaction applied!" << std::endl;
-        std::cout << "Alice Balance: " << alice.getBalance() << std::endl;
-        std::cout << "Bob Balance: " << bob.getBalance() << std::endl;
-    } else {
-        std::cout << "Transaction failed: insufficient funds" << std::endl;
-    }
-
+    CLI cli;
+    cli.run();
     return 0;
 }

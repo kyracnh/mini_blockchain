@@ -26,6 +26,7 @@ public:
 
     void saveToFile() const;
     static Wallet loadFromFile(const std::string& publicKey);
+    std::string getAddress() const;
 };
 
 #endif

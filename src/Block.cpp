@@ -3,8 +3,8 @@
 #include <chrono>
 
 Block::Block(int idx, const std::vector<Transaction>& txs, const std::string& prevHash, int diff)
-    : index(idx), timestamp(""), transactions(txs), previousHash(prevHash), hash(""), nonce(0), difficulty(diff)
-{
+    : index(idx), transactions(txs), previousHash(prevHash), nonce(0), difficulty(diff) {
+    
     auto now = std::chrono::system_clock::now();
     auto now_time = std::chrono::system_clock::to_time_t(now);
     timestamp = std::ctime(&now_time);
@@ -12,16 +12,12 @@ Block::Block(int idx, const std::vector<Transaction>& txs, const std::string& pr
     hash = calculateHash();
 }
 
-std::string Block::calculateHash() const
-{
+std::string Block::calculateHash() const {
     std::stringstream ss;
     ss << index << timestamp << previousHash << nonce;
-
-    // Include all transactions
     for (const auto& tx : transactions) {
-        ss << tx.toString();
+        ss << tx.getSender() << tx.getReceiver() << tx.getAmount();
     }
-
     return sha256(ss.str());
 }
 
@@ -43,6 +39,6 @@ void Block::mineBlock() {
 
 std::string Block::getHash() const { return hash; }
 std::string Block::getPreviousHash() const { return previousHash; }
-std::vector<Transaction> Block::getTransactions() const { return transactions; }
+const std::vector<Transaction>& Block::getTransactions() const {return transactions;}
 int Block::getIndex() const { return index; }
 std::string Block::getTimestamp() const { return timestamp; }

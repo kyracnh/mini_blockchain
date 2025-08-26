@@ -61,3 +61,7 @@ Wallet Wallet::loadFromFile(const std::string& pubKey)
     file.close();
     return Wallet(pub, priv, bal);
 }
+
+std::string Wallet::getAddress() const {
+    return publicKey;
+}

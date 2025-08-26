@@ -24,11 +24,11 @@ private:
 
 public:
     Block(int idx, const std::vector<Transaction>& txs, const std::string& prevHash, int diff);
+    const std::vector<Transaction>& getTransactions() const;
 
     std::string calculateHash() const;
     std::string getHash() const;
     std::string getPreviousHash() const;
-    std::vector<Transaction> getTransactions() const;
     int getIndex() const;
     std::string getTimestamp() const;
 

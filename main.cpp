@@ -44,23 +44,23 @@
 // }
 
 
-#include <iostream>
-#include "Blockchain.hpp"
+// #include <iostream>
+// #include "Blockchain.hpp"
 
-int main() {
-    Blockchain myChain(4);
+// int main() {
+//     Blockchain myChain(4);
 
-    myChain.addBlock(Block(1, "Ahmed pays Aboubaker 10 coins", "", 1));
-    myChain.addBlock(Block(2, "Aboubaker pays Lahbib 5 coins", "", 1));
-    myChain.addBlock(Block(3, "Lahbib pays Diwana 2 coins", "", 1));
+//     myChain.addBlock(Block(1, "Ahmed pays Aboubaker 10 coins", "", 1));
+//     myChain.addBlock(Block(2, "Aboubaker pays Lahbib 5 coins", "", 1));
+//     myChain.addBlock(Block(3, "Lahbib pays Diwana 2 coins", "", 1));
 
-    myChain.printChain();
+//     myChain.printChain();
 
-    std::cout << "Is blockchain valid? "
-              << (myChain.isChainValid() ? "Yes" : "No") << std::endl;
+//     std::cout << "Is blockchain valid? "
+//               << (myChain.isChainValid() ? "Yes" : "No") << std::endl;
 
-    return 0;
-}
+//     return 0;
+// }
 
 
 // int main() {
@@ -69,3 +69,55 @@ int main() {
 //     b1.mineBlock();
 //     return 0;
 // }
+
+
+// #include "Wallet.hpp"
+// #include <iostream>
+
+// int main() {
+//     std::cout << "=== Create Wallet ===" << std::endl;
+//     Wallet w1;
+//     w1.saveToFile();
+
+//     std::cout << "Public Key: " << w1.getPublicKey() << std::endl;
+//     std::cout << "Private Key: " << w1.getPrivateKey() << std::endl;
+//     std::cout << "Balance: " << w1.getBalance() << std::endl;
+
+//     std::cout << "\n=== Load Wallet ===" << std::endl;
+//     Wallet w2 = Wallet::loadFromFile(w1.getPublicKey());
+//     std::cout << "Loaded Wallet Balance: " << w2.getBalance() << std::endl;
+
+//     return 0;
+// }
+
+
+#include "Wallet.hpp"
+#include "Transaction.hpp"
+#include <iostream>
+#include <vector>
+
+int main() {
+    Wallet alice;
+    Wallet bob;
+
+    alice.addBalance(100); // simulate deposit
+
+    // Create transaction: Alice sends 30 to Bob
+    Transaction tx(alice.getPublicKey(), bob.getPublicKey(), 30);
+
+    std::cout << "Transaction ID: " << tx.getTransactionID() << std::endl;
+    std::cout << "From: " << tx.getSender() << " To: " << tx.getReceiver() << " Amount: " << tx.getAmount() << std::endl;
+
+    // Apply transaction
+    if (alice.getBalance() >= tx.getAmount()) {
+        alice.subtractBalance(tx.getAmount());
+        bob.addBalance(tx.getAmount());
+        std::cout << "Transaction applied!" << std::endl;
+        std::cout << "Alice Balance: " << alice.getBalance() << std::endl;
+        std::cout << "Bob Balance: " << bob.getBalance() << std::endl;
+    } else {
+        std::cout << "Transaction failed: insufficient funds" << std::endl;
+    }
+
+    return 0;
+}

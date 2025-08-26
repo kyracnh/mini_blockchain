@@ -6,7 +6,8 @@ Blockchain::Blockchain(int diff) : difficulty(diff) {
 }
 
 Block Blockchain::createGenesisBlock() {
-    return Block(0, "Genesis Block", "0", difficulty);
+    std::vector<Transaction> genesisTxs;
+    return Block(0, genesisTxs, "0", difficulty);
 }
 
 void Blockchain::addBlock(const Block& newBlock)
@@ -22,7 +23,8 @@ void Blockchain::addBlock(const Block& newBlock)
         // {
         //     throw std::runtime_error("The new block's previous hash does not match the latest block's hash.");
         // }
-        Block block(newBlock.getIndex(), newBlock.getData(), getLatestBlock().getHash(), difficulty);
+        Block block(newBlock.getIndex(), newBlock.getTransactions(), getLatestBlock().getHash(), difficulty);
+
         // block.mineBlock();
         chain.push_back(block);
     }
@@ -58,7 +60,12 @@ bool Blockchain::isChainValid() const {
 void Blockchain::printChain() const {
     for (const auto& block : chain) {
         std::cout << "Block #" << block.getIndex() << "\n";
-        std::cout << "Data: " << block.getData() << "\n";
+
+        std::cout << "Transactions:\n";
+        for (const auto& tx : block.getTransactions()) {
+            std::cout << "  " << tx.toString() << "\n";
+        }
+        
         std::cout << "Hash: " << block.getHash() << "\n";
         std::cout << "Prev Hash: " << block.getPreviousHash() << "\n";
         std::cout << "Timestamp: " << block.getTimestamp() << "\n\n";

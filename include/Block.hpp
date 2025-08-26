@@ -4,34 +4,35 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include <thread>
 #include <iostream>
 #include <ctime>
 #include "SHA256.hpp"
+#include "Transaction.hpp"
 
 class Block
 {
-    private:
-        int index;
-        std::string timestamp;
-        std::string data;
-        std::string previousHash;
-        std::string hash;
-        int nonce;
-        int difficulty;
+private:
+    int index;
+    std::string timestamp;
+    std::vector<Transaction> transactions;
+    std::string previousHash;
+    std::string hash;
+    int nonce;
+    int difficulty;
 
-        
-    public:
-        Block(int idx, const std::string& d, const std::string& prevHash, int diff);
-        
-        std::string calculateHash() const;
-        std::string getHash() const;
-        std::string getPreviousHash() const;
-        std::string getData() const;
-        int getIndex() const;
-        std::string getTimestamp() const;
+public:
+    Block(int idx, const std::vector<Transaction>& txs, const std::string& prevHash, int diff);
 
-        void mineBlock();
+    std::string calculateHash() const;
+    std::string getHash() const;
+    std::string getPreviousHash() const;
+    std::vector<Transaction> getTransactions() const;
+    int getIndex() const;
+    std::string getTimestamp() const;
+
+    void mineBlock();
 };
 
 #endif

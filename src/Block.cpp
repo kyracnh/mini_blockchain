@@ -2,8 +2,8 @@
 #include <sstream>
 #include <chrono>
 
-Block::Block(int idx, const std::string& d, const std::string& prevHash, int diff)
-    : index(idx), timestamp(""), data(d), previousHash(prevHash), hash(""), nonce(0), difficulty(diff)
+Block::Block(int idx, const std::vector<Transaction>& txs, const std::string& prevHash, int diff)
+    : index(idx), timestamp(""), transactions(txs), previousHash(prevHash), hash(""), nonce(0), difficulty(diff)
 {
     auto now = std::chrono::system_clock::now();
     auto now_time = std::chrono::system_clock::to_time_t(now);
@@ -12,12 +12,16 @@ Block::Block(int idx, const std::string& d, const std::string& prevHash, int dif
     hash = calculateHash();
 }
 
-
-
 std::string Block::calculateHash() const
 {
     std::stringstream ss;
-    ss << index << timestamp << data << previousHash;
+    ss << index << timestamp << previousHash << nonce;
+
+    // Include all transactions
+    for (const auto& tx : transactions) {
+        ss << tx.toString();
+    }
+
     return sha256(ss.str());
 }
 
@@ -33,15 +37,12 @@ void Block::mineBlock() {
         {
             std::cout << "\rMining block " << index << ": " << hash << " (nonce: " << nonce << ")" << std::flush;
         }
-
-        // std::this_thread::sleep_for(std::chrono::milliseconds(100));
-
-        std::cout << std::endl << "Block mined: " << hash << " with nonce: " << nonce << std::endl;
     }
+    std::cout << std::endl << "Block mined: " << hash << " with nonce: " << nonce << std::endl;
 }
 
 std::string Block::getHash() const { return hash; }
 std::string Block::getPreviousHash() const { return previousHash; }
-std::string Block::getData() const { return data; }
+std::vector<Transaction> Block::getTransactions() const { return transactions; }
 int Block::getIndex() const { return index; }
 std::string Block::getTimestamp() const { return timestamp; }

@@ -16,11 +16,11 @@ class Block
         std::string previousHash;
         std::string hash;
 
-        std::string calculateHash() const;
-
+        
     public:
         Block(int idx, const std::string &d, const std::string &prevHqsh);
-
+        
+        std::string calculateHash() const;
         std::string getHash() const;
         std::string getPreviousHash() const;
         std::string getData() const;

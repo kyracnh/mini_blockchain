@@ -7,7 +7,7 @@
 class Blockchain
 {
     private:
-        std;;vector<Block> chain;
+        std::vector<Block> chain;
         int difficulty;
 
         Block createGenesisBlock();

@@ -45,14 +45,19 @@
 
 
 #include <iostream>
-#include "Block.hpp"
+#include "Blockchain.hpp"
 
 int main() {
-    Block genesis(0, "First Block (Genesis)", "0");
-    std::cout << "Block #" << genesis.getIndex() << "\n";
-    std::cout << "Data: " << genesis.getData() << "\n";
-    std::cout << "Hash: " << genesis.getHash() << "\n";
-    std::cout << "Previous Hash: " << genesis.getPreviousHash() << "\n";
-    std::cout << "Timestamp: " << genesis.getTimestamp() << "\n";
-}
+    Blockchain myChain(4);
 
+    myChain.addBlock(Block(1, "Alice pays Bob 10 coins", ""));
+    myChain.addBlock(Block(2, "Bob pays Charlie 5 coins", ""));
+    myChain.addBlock(Block(3, "Charlie pays Dave 2 coins", ""));
+
+    myChain.printChain();
+
+    std::cout << "Is blockchain valid? "
+              << (myChain.isChainValid() ? "Yes" : "No") << std::endl;
+
+    return 0;
+}

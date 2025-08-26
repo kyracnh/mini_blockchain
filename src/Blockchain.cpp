@@ -9,10 +9,23 @@ Block Blockchain::createGenesisBlock() {
     return Block(0, "Genesis Block", "0", difficulty);
 }
 
-void Blockchain::addBlock(const Block& newBlock) {
-    Block block(newBlock.getIndex(), newBlock.getData(), getLatestBlock().getHash(), difficulty);
-    block.mineBlock();
-    chain.push_back(block);
+void Blockchain::addBlock(const Block& newBlock)
+{
+    try
+    {
+        if (chain.empty())
+        {
+            throw std::runtime_error("The blockchain is empty. Cannot add a new block.");
+        }
+
+        if (newBlock.getPreviousHash() != getLatestBlock().getHash())
+        {
+            throw std::runtime_error("The new block's previous hash does not match the latest block's hash.");
+        }
+        Block block(newBlock.getIndex(), newBlock.getData(), getLatestBlock().getHash(), difficulty);
+        // block.mineBlock();
+        chain.push_back(block);
+    }
 }
 
 Block Blockchain::getLatestBlock() const {

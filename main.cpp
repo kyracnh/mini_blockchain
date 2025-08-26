@@ -47,25 +47,25 @@
 #include <iostream>
 #include "Blockchain.hpp"
 
-// int main() {
-//     Blockchain myChain(4);
-
-//     myChain.addBlock(Block(1, "Ahmed pays Aboubaker 10 coins", "", 1));
-//     myChain.addBlock(Block(2, "Aboubaker pays Lahbib 5 coins", "", 1));
-//     myChain.addBlock(Block(3, "Lahbib pays Diwana 2 coins", "", 1));
-
-//     myChain.printChain();
-
-//     std::cout << "Is blockchain valid? "
-//               << (myChain.isChainValid() ? "Yes" : "No") << std::endl;
-
-//     return 0;
-// }
-
-
 int main() {
-    Block b1(0, "Genesis Block", "0", 4);
-    std::cout << "Mining block 1..." << std::endl;
-    b1.mineBlock();
+    Blockchain myChain(4);
+
+    myChain.addBlock(Block(1, "Ahmed pays Aboubaker 10 coins", "", 1));
+    myChain.addBlock(Block(2, "Aboubaker pays Lahbib 5 coins", "", 1));
+    myChain.addBlock(Block(3, "Lahbib pays Diwana 2 coins", "", 1));
+
+    myChain.printChain();
+
+    std::cout << "Is blockchain valid? "
+              << (myChain.isChainValid() ? "Yes" : "No") << std::endl;
+
     return 0;
 }
+
+
+// int main() {
+//     Block b1(0, "Genesis Block", "0", 4);
+//     std::cout << "Mining block 1..." << std::endl;
+//     b1.mineBlock();
+//     return 0;
+// }

@@ -18,13 +18,18 @@ void Blockchain::addBlock(const Block& newBlock)
             throw std::runtime_error("The blockchain is empty. Cannot add a new block.");
         }
 
-        if (newBlock.getPreviousHash() != getLatestBlock().getHash())
-        {
-            throw std::runtime_error("The new block's previous hash does not match the latest block's hash.");
-        }
+        // if (newBlock.getPreviousHash() != getLatestBlock().getHash())
+        // {
+        //     throw std::runtime_error("The new block's previous hash does not match the latest block's hash.");
+        // }
         Block block(newBlock.getIndex(), newBlock.getData(), getLatestBlock().getHash(), difficulty);
         // block.mineBlock();
         chain.push_back(block);
+    }
+
+    catch (const std::exception &e)
+    {
+        std::cerr << "Error adding block: " << e.what() << std::endl;
     }
 }
 
@@ -33,6 +38,10 @@ Block Blockchain::getLatestBlock() const {
 }
 
 bool Blockchain::isChainValid() const {
+    if (chain.empty())
+    {
+        throw std::runtime_error("The blockchain is empty. Cannot validate the chain.");
+    }
     for (size_t i = 1; i < chain.size(); ++i) {
         const Block& current = chain[i];
         const Block& previous = chain[i - 1];

@@ -3,7 +3,7 @@
 // #include "Transaction.hpp"
 #include "CLI.hpp"
 
-// int main() {
+int main() {
 //     Blockchain myChain(2);
 
 //     std::vector<Transaction> txs1 { Transaction("Ahmed", "Aboubaker", 10) };
@@ -18,11 +18,8 @@
 
 //     myChain.printChain();
 
-//     return 0;
-// }
-
-int main() {
     CLI cli;
-    cli.run(); // Start the CLI loop
+    cli.run();
+
     return 0;
 }

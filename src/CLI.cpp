@@ -2,16 +2,14 @@
 #include <iostream>
 
 CLI::CLI() : blockchain(3) {
-    // Create default wallet
+
     Wallet defaultWallet;
     std::string defaultAddress = defaultWallet.getAddress();
     wallets[defaultAddress] = defaultWallet;
 
-    // Add initial transaction from "network" to default wallet
     blockchain.addTransaction(Transaction("network", defaultAddress, 100.0));
 
-    // Mine the first block so the balance is confirmed
-    blockchain.minePendingTransactions("network"); // miner reward can also be default wallet
+    blockchain.minePendingTransactions("network");
 
     std::cout << "✅ Default wallet created with address: " << defaultAddress 
               << " | Initial Balance: 100 BTC\n";

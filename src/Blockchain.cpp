@@ -77,16 +77,14 @@ void Blockchain::addTransaction(const Transaction& tx) {
 }
 
 void Blockchain::minePendingTransactions(const std::string& minerAddress) {
-    // include reward transaction
-    Transaction reward("SYSTEM", minerAddress, 10); // reward miner with 10 coins
+
+    Transaction reward("SYSTEM", minerAddress, 10);
     pendingTransactions.push_back(reward);
 
-    // create block with pending transactions
     Block block(chain.size(), pendingTransactions, getLatestBlock().getHash(), difficulty);
     block.mineBlock();
     chain.push_back(block);
 
-    // reset pending
     pendingTransactions.clear();
 }
 
@@ -95,13 +93,14 @@ double Blockchain::getBalance(const std::string& address) const {
 
     for (const auto& block : chain) {
         for (const auto& tx : block.getTransactions()) {
-            if (tx.getSender() == address) {
-                balance -= tx.getAmount();
-            }
-            if (tx.getReceiver() == address) {
-                balance += tx.getAmount();
-            }
+            if (tx.getSender() == address) balance -= tx.getAmount();
+            if (tx.getReceiver() == address) balance += tx.getAmount();
         }
+    }
+
+    for (const auto& tx : pendingTransactions) {
+        if (tx.getSender() == address) balance -= tx.getAmount();
+        if (tx.getReceiver() == address) balance += tx.getAmount();
     }
 
     return balance;

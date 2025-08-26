@@ -6,12 +6,12 @@ Blockchain::Blockchain(int diff) : difficulty(diff) {
 }
 
 Block Blockchain::createGenesisBlock() {
-    return Block(0, "Genesis Block", "0");
+    return Block(0, "Genesis Block", "0", difficulty);
 }
 
 void Blockchain::addBlock(const Block& newBlock) {
-    Block block = newBlock;
-    block = Block(block.getIndex(), block.getData(), getLatestBlock().getHash());
+    Block block(newBlock.getIndex(), newBlock.getData(), getLatestBlock().getHash(), difficulty);
+    block.mineBlock();
     chain.push_back(block);
 }
 

@@ -4,6 +4,8 @@
 #pragma once
 
 #include <string>
+#include <thread>
+#include <iostream>
 #include <ctime>
 #include "SHA256.hpp"
 
@@ -15,10 +17,12 @@ class Block
         std::string data;
         std::string previousHash;
         std::string hash;
+        int nonce;
+        int difficulty;
 
         
     public:
-        Block(int idx, const std::string &d, const std::string &prevHqsh);
+        Block(int idx, const std::string& d, const std::string& prevHash, int diff);
         
         std::string calculateHash() const;
         std::string getHash() const;
@@ -26,6 +30,8 @@ class Block
         std::string getData() const;
         int getIndex() const;
         std::string getTimestamp() const;
+
+        void mineBlock();
 };
 
 #endif
